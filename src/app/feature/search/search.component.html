@@ -1,0 +1,119 @@
+<div class="top-bar">
+  <img class="logo-top" src="../../../assets/images/loft-logo.svg">
+</div>
+
+<div class="header-container">
+  <img height="300px" src="../../../assets/images/github-bg.svg">
+  <div class="header-body">
+    <h1>Front-End Code Test</h1>
+    <p>GitHub Repo Search</p>
+    <div class="search-container">
+      <input id="search-query" type="text" #input placeholder="Search Github Repos" name="search">
+      <button id="search-button" [disabled]="loading" (click)="searchRepository(input?.value)" type="button"><i *ngIf="loading" class="fa fa-spinner"></i>Search</button>
+    </div>
+  </div>
+</div>
+
+<div class="body-container">
+
+  <div *ngIf="!isSearchInitialised">
+    <h2 style="text-align: center; margin: 0px; padding-top: 50px; opacity: 0.5">Type a phrase to search in Github repository</h2>
+  </div>
+
+  <div *ngIf="notFound" [@EnterLeave]="'flyIn'">
+    <p>Sorry there is no result on your search.</p>
+  </div>
+
+  <div *ngIf="repoDetails" [@EnterLeave]="'flyIn'">
+    <p>The top search result is</p>
+    <h1>{{repoDetails?.owner?.login}}</h1>
+  </div>
+
+  <div class="card-container" *ngIf="repoDetails" [@EnterLeave]="'flyIn'">
+
+    <div class="card card-general">
+      <h4 class="card-title">General Info</h4>
+      <div class="row">
+        <div class="col-15"><b>Full Name</b></div>
+        <div class="col-35">{{repoDetails?.full_name}}</div>
+        <div class="col-15"><b>Private</b></div>
+        <div class="col-35">{{repoDetails?.private}}</div>
+      </div>
+      <div class="row">
+        <div class="col-15"><b>Description</b></div>
+        <div class="col-35">{{repoDetails?.description}}</div>
+        <div class="col-15"><b>Created At</b></div>
+        <div class="col-35">{{repoDetails?.created_at | date:'dd/MM/yyyy'}}</div>
+      </div>
+      <div class="row">
+        <div class="col-15"><b>Url</b></div>
+        <div class="col-35" style="word-break: break-word"><a [href]="repoDetails?.url" target="_blank">{{repoDetails?.url}}</a></div>
+        <div class="col-15"><b>Updated At</b></div>
+        <div class="col-35">{{repoDetails?.updated_at | date:'dd/MM/yyyy'}}</div>
+      </div>
+      <div class="row">
+        <div class="col-15"><b>Language</b></div>
+        <div class="col-35">{{repoDetails?.language}}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-container" *ngIf="repoDetails" [@EnterLeave]="'flyIn'">
+
+    <div class="card card-usage-info">
+      <h4 class="card-title">Usage Info</h4>
+      <div class="row">
+        <div class="col-icons"><i class="fa fa-star"></i></div>
+        <div class="col-fixed-property">Stared By</div>
+        <div class="col-fill"><b>{{repoDetails?.stargazers_count}}</b></div>
+      </div>
+
+      <div class="row">
+        <div class="col-icons"><i class="fa fa-eye"></i></div>
+        <div class="col-fixed-property">Watched By</div>
+        <div class="col-fill"><b>{{repoDetails?.watchers_count}}</b></div>
+      </div>
+
+      <div class="row">
+        <div class="col-icons"><i class="fa fa-code-fork"></i></div>
+        <div class="col-fixed-property">Forked By</div>
+        <div class="col-fill"><b>{{repoDetails?.forks}}</b></div>
+      </div>
+
+      <div class="row">
+        <div class="col-icons"><i class="fa fa-balance-scale"></i></div>
+        <div class="col-fixed-property">License</div>
+        <div class="col-fill"><b>{{repoDetails?.license?.spdx_id}}</b></div>
+      </div>
+    </div>
+
+    <div class="card card-owner-info">
+      <h4 class="card-title">Owner Info</h4>
+      <div style="display: flex; flex-wrap: wrap">
+        <div style="flex: 1">
+          <div class="row">
+            <div class="col-fixed-property"><b>Owner</b></div>
+            <div class="col-fill">{{repoDetails?.owner?.login}}</div>
+          </div>
+          <div class="row">
+            <div class="col-fixed-property"><b>Owner id</b></div>
+            <div class="col-fill">{{repoDetails?.owner.id}}</div>
+          </div>
+          <div class="row">
+            <div class="col-fixed-property"><b>Type</b></div>
+            <div class="col-fill">{{repoDetails?.owner.type}}</div>
+          </div>
+        </div>
+        <div>
+          <img *ngIf="repoDetails?.owner?.avatar_url" style="float: right" height="150" width="150" [src]="repoDetails?.owner?.avatar_url">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <img class="logo-botom" src="../../../assets/images/loft-logo.svg">
+</div>
